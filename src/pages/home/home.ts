@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { TwdServiceProvider } from '../../providers/twd-service/twd-service';
+import { Session } from '../../providers/session/session';
+import { User } from '../../models/user';
 
 @Component({
   selector: 'page-home',
@@ -14,12 +16,13 @@ export class HomePage {
   descending: boolean = false;
   order: number;
   column: string = 'name';
+  user: User;
 
-  constructor(public navCtrl: NavController,public twdService: TwdServiceProvider) {
-    this.getAll();
+  constructor(public navCtrl: NavController, public twdService: TwdServiceProvider, public session: Session) {
+    //this.getAll();
   }
 
-  getAll() {
+  /*getAll() {
     this.twdService.load()
       .then(data => {
         this.obj = data;
@@ -36,6 +39,13 @@ export class HomePage {
   sort(){
     this.descending = !this.descending;
     this.order = this.descending ? 1 : -1;
-  }
+  }*/
+
+  createSession() {
+    this.user = new User();
+    //disparando a sessão
+    this.session.create(this.user);
+    
+  } 
 
 }
