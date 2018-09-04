@@ -1,36 +1,38 @@
-<!-- <ion-header>
-  <ion-navbar>
-    <ion-title>
-      Login Usuário
-    </ion-title>
-  </ion-navbar>
-</ion-header>
-
-<ion-content class="home">
-    <ion-searchbar [(ngModel)]="terms"></ion-searchbar>
-    <button ion-button type="button" (click)="sort()">Sort</button>
-
-    <ion-list>
-        <ion-item (click)="getDetail(episode.id)"   *ngFor="let episode of result | search : terms | sort: {property: column, order: order}">
-         <ion-avatar item-left *ngIf="episode.image != null">
-           <img src="{{episode.image.medium}}">
-         </ion-avatar>
-         <h2>{{episode.name}}</h2>
-       </ion-item> 
-     </ion-list>    
-   
-</ion-content>-->
-
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Login Usuário
+      Lista de Usuários
     </ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content class="home">
+<ion-content padding>
+  <ion-searchbar (ionInput)="filterUsers($event)" [(ngModel)]="searchText"></ion-searchbar>
+  <ion-list>
+    <ion-item-sliding *ngFor="let user of users">
+      <button ion-item (click)="editUser(user.id)">
+        <h1>{{user.id}}</h1>
+        <h2>{{user.name}}</h2>
+        <p>{{user.email}}</p>
+        <p>{{user.birthDate| date:'dd/MM/yyyy'}}</p>
+      </button>
 
-    <button ion-button type="button" (click)="createSession()">Criar Sessão</button>   
-   
+      <ion-item-options side="left">
+        <button ion-button color="danger" (click)="removeUser(user)">
+          <ion-icon name="trash"></ion-icon>
+          Excluir
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <ion-fab right bottom>
+    <button ion-fab round (click)="addNewUser()">Criar novo Usuário</button>
+  </ion-fab>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <!-- <p>Total: {{ users.length }}</p> -->
+  </ion-toolbar>
+</ion-footer>

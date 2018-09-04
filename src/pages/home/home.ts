@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
-import { TwdServiceProvider } from '../../providers/twd-service/twd-service';
-import { Session } from '../../providers/session/session';
+import { NavController, AlertController } from 'ionic-angular';
+import { RestProvider } from '../../providers/rest/rest';
+import { NewuserPage } from '../../pages/newuser/newuser';
 import { User } from '../../models/user';
 
 @Component({
@@ -16,36 +16,51 @@ export class HomePage {
   descending: boolean = false;
   order: number;
   column: string = 'name';
-  user: User;
+  users: any;
+  searchText: string = null;
 
-  constructor(public navCtrl: NavController, public twdService: TwdServiceProvider, public session: Session) {
-    //this.getAll();
+  constructor(public navCtrl: NavController, public alertCtrl: AlertController,
+    public restProvider: RestProvider) {
+    this.getUsers();
   }
 
-  /*getAll() {
-    this.twdService.load()
+  getUsers() {
+    this.restProvider.getUsers()
       .then(data => {
-        this.obj = data;
-        this.result = this.obj._embedded.episodes;
+        this.users = data;
+        console.log(this.users);
       });
   }
 
-  getDetail(id:number){
-    this.navCtrl.push("DetailsPage", {
-      id: id
-    })
+  addNewUser() {
+    this.navCtrl.push(NewuserPage);
   }
 
-  sort(){
-    this.descending = !this.descending;
-    this.order = this.descending ? 1 : -1;
-  }*/
+  editUser(id: number) {
+    this.navCtrl.push(NewuserPage, { id: id });
+  }
 
-  createSession() {
-    this.user = new User();
-    //disparando a sessão
-    this.session.create(this.user);
-    
-  } 
+  removeUser(user: User) {
+    this.restProvider.remove(user.id)
+      .then(() => {
+        // Removendo do array de usuários
+        var index = this.users.indexOf(user);
+        this.users.splice(index, 1);
+        this.showAlert('Sucesso', 'Registro excluído com sucesso!');
+      });
+  }
+
+  filterUsers(ev: any) {
+    //this.getUsers();
+  }
+
+  showAlert(title, message) {
+    const alert = this.alertCtrl.create({
+      title: title,
+      subTitle: message,
+      buttons: ['OK']
+    });
+    alert.present();
+  }
 
 }

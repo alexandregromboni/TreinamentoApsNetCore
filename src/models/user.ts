@@ -13,5 +13,6 @@ export class Model {
       createData: Date;
       password: string;
       gender: string;
+      status: boolean;
       cpf: string;
   }
