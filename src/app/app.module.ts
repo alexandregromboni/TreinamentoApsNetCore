@@ -4,18 +4,23 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
+import { FormsModule } from '@angular/forms';
 
 import { MyApp } from './app.component';
+
 import { HomePage } from '../pages/home/home';
 import { NewuserPage } from '../pages/newuser/newuser';
+import { WelcomePage } from '../pages/welcome/welcome';
+
 import { RestProvider } from '../providers/rest/rest';
-import { FormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-    NewuserPage
+    NewuserPage,
+    WelcomePage
   ],
   imports: [
     BrowserModule,
@@ -27,7 +32,8 @@ import { FormsModule } from '@angular/forms';
   entryComponents: [
     MyApp,
     HomePage,
-    NewuserPage
+    NewuserPage,
+    WelcomePage
   ],
   providers: [
     StatusBar,

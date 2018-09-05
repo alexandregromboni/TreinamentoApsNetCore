@@ -51,7 +51,11 @@ export class HomePage {
   }
 
   filterUsers(ev: any) {
-    //this.getUsers();
+    this.restProvider.getUsersByName(this.searchText)
+      .then(data => {
+        this.users = data;
+        console.log(this.users);
+      });
   }
 
   showAlert(title, message) {

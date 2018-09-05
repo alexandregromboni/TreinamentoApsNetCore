@@ -19,7 +19,7 @@ export class RestProvider {
 
   getUsers() {
     return new Promise(resolve => {
-      this.http.get(this.apiUrl + '/api/User')
+      this.http.get(this.apiUrl + '/api/User/GetAll')
         .subscribe(data => {
           this.data = data;
           resolve(data);
@@ -30,9 +30,36 @@ export class RestProvider {
     });
   }
 
+  getUsersByName(name) {
+    if (name == null || name == "") {
+      return new Promise(resolve => {
+        this.http.get(this.apiUrl + '/api/User/GetAll')
+          .subscribe(data => {
+            this.data = data;
+            resolve(data);
+          },
+            err => {
+              console.log(err);
+            });
+      });
+    }
+    else {
+      return new Promise(resolve => {
+        this.http.get(this.apiUrl + '/api/User/GetByName/' + name)
+          .subscribe(data => {
+            this.data = data;
+            resolve(data);
+          },
+            err => {
+              console.log(err);
+            });
+      });
+    }
+  }
+
   getUser(id) {
     return new Promise(resolve => {
-      this.http.get(this.apiUrl + '/api/User/' + id)
+      this.http.get(this.apiUrl + '/api/User/GetById/' + id)
         .subscribe(data => {
           this.data = data;
           resolve(data);
@@ -45,7 +72,7 @@ export class RestProvider {
   saveUser(data) {
     if (data.id > 0) {
       return new Promise((resolve, reject) => {
-        this.http.put(this.apiUrl + '/api/User', JSON.constructor(data)).subscribe(res => {
+        this.http.put(this.apiUrl + '/api/User/Put', JSON.constructor(data)).subscribe(res => {
           resolve(res);
         }, (err) => {
           console.log(err);
@@ -53,7 +80,7 @@ export class RestProvider {
       });
     } else {
       return new Promise((resolve, reject) => {
-        this.http.post(this.apiUrl + '/api/User', JSON.constructor(data)).subscribe(res => {
+        this.http.post(this.apiUrl + '/api/User/Post', JSON.constructor(data)).subscribe(res => {
           resolve(res);
         }, (err) => {
           console.log(err);
@@ -64,7 +91,7 @@ export class RestProvider {
 
   public remove(id: number) {
     return new Promise(resolve => {
-      this.http.delete(this.apiUrl + '/api/User/' + id)
+      this.http.delete(this.apiUrl + '/api/User/Delete/' + id)
         .subscribe(data => {
           this.data = data;
           resolve(data);
